@@ -3,8 +3,8 @@ Lentil Soup
 8
 
 Grain 2 cups lentils
-Vegetable 4 celery
-Vegetable 4 carrots
+Produce 4 celery
+Produce 4 carrots
 Soup 4 cups chicken broth
 Spices 2 tablespoons cumin
 Spices 2 teaspoons paprika

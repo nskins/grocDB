@@ -4,10 +4,10 @@ The Kitchen Sink
 
 Spices 1500 tbsp salt
 Canned 12 cans sardines
-Vegetable 8 bell peppers
-Vegetable 3 heads cabbage
-Vegetable 3 carrots
-Vegetable 2.5 yellow onions
+Produce 8 bell peppers
+Produce 3 heads cabbage
+Produce 3 carrots
+Produce 2.5 yellow onions
 Dairy 1 scoop ice cream
 
 Directions

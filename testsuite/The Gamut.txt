@@ -12,12 +12,12 @@ Meat 1 lb pork
 Meat 3 lbs chicken
 Beverage 1 liter cider
 Dairy 18 liters cheese sauce
-Vegetable 1 clove garlic
-Vegetable 3 cloves clovers
-Vegetable 1 stalk dandelion
-Vegetable 2 stalks celery
-Vegetable 1 head cabbage
-Vegetable 17 heads lettuce
+Produce 1 clove garlic
+Produce 3 cloves clovers
+Produce 1 stalk dandelion
+Produce 2 stalks celery
+Produce 1 head cabbage
+Produce 17 heads lettuce
 
 
 Directions:
