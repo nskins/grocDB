@@ -20,13 +20,14 @@ void add_to_db(Recipe *r) {
   }
 
   // Set and execute an SQL statement.
-  sql = "INSERT INTO dishes VALUES (" +
-    r->getName() + ", " + std::to_string(r->getServes()) + ");";
-rc = sqlite3_exec(db, std::c_str(sql), NULL, NULL, &zErrMsg);
+  sql = "INSERT INTO recipes VALUES ('" +
+    r->getName() + "', " + std::to_string(r->getServes()) + ");";
+  rc = sqlite3_exec(db, sql.c_str(), NULL, NULL, &zErrMsg);
 
   // Error handling.
   if (rc != SQLITE_OK) {
-    std::cout << "SQL Error: " + zErrMsg + "\n";
+    std::cout << "SQL Error!\n";
+    std::cout << zErrMsg << "\n";
     sqlite3_free(zErrMsg);
     exit(0);
   }
@@ -35,16 +36,17 @@ rc = sqlite3_exec(db, std::c_str(sql), NULL, NULL, &zErrMsg);
 
   // Add an entry for every ingredient in the recipe.
   for (int i = 0; i < size; ++i) {
-    sql = "INSERT INTO madewith VALUES (" +
-      r->getName() + ", " + r->(*getIngredients())[i].(*name) + ", " +
-      to_string(r->(*getIngredients())[i].quantity) + ", " +
-      r->(*getIngredients())[i].(*unit) + ", " +
-      r->(*getIngredients())[i].(*foodgroup) + ");";
-    rc = sqlite3_exec(db, std::c_str(sql), NULL, NULL, &zErrMsg);
+    sql = "INSERT INTO madewith VALUES ('" +
+      r->getName() + "', '" + (r->getIngredients()->at(i).name) + "', " +
+      std::to_string(r->getIngredients()->at(i).quantity) + ", '" +
+      (r->getIngredients()->at(i).unit) + "', '" +
+      (r->getIngredients()->at(i).foodgroup) + "');";
+    rc = sqlite3_exec(db, sql.c_str(), NULL, NULL, &zErrMsg);
 
     // Error handling.
     if (rc != SQLITE_OK) {
-      std::cout << "SQL Error: " + zErrMsg + "\n";
+      std::cout << "SQL Error!\n";
+      std::cout << zErrMsg << "\n";
       sqlite3_free(zErrMsg);
       exit(0);
     }
