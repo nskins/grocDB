@@ -1,0 +1,86 @@
+groc_db.cpp: In function ‘void add_to_db(Recipe*)’:
+groc_db.cpp:24:51: error: ‘to_string’ was not declared in this scope
+     r->getName() + ", " + to_string(r->getServes()) + ");";
+                                                   ^
+groc_db.cpp:24:51: note: suggested alternative:
+In file included from /usr/include/c++/4.9/string:52:0,
+                 from /usr/include/c++/4.9/bits/locale_classes.h:40,
+                 from /usr/include/c++/4.9/bits/ios_base.h:41,
+                 from /usr/include/c++/4.9/ios:42,
+                 from /usr/include/c++/4.9/ostream:38,
+                 from /usr/include/c++/4.9/iostream:39,
+                 from groc_db.cpp:1:
+/usr/include/c++/4.9/bits/basic_string.h:2951:3: note:   ‘std::to_string’
+   to_string(long double __val)
+   ^
+groc_db.cpp:25:23: error: ‘c_str’ is not a member of ‘std’
+ rc = sqlite3_exec(db, std::c_str(sql), NULL, NULL, &zErrMsg);
+                       ^
+groc_db.cpp:29:34: error: invalid operands of types ‘const char [12]’ and ‘char*’ to binary ‘operator+’
+     std::cout << "SQL Error: " + zErrMsg + "\n";
+                                  ^
+groc_db.cpp:39:32: error: expected unqualified-id before ‘(’ token
+       r->getName() + ", " + r->(*getIngredients())[i].(*name) + ", " +
+                                ^
+groc_db.cpp:39:49: error: ‘getIngredients’ was not declared in this scope
+       r->getName() + ", " + r->(*getIngredients())[i].(*name) + ", " +
+                                                 ^
+groc_db.cpp:39:55: error: expected unqualified-id before ‘(’ token
+       r->getName() + ", " + r->(*getIngredients())[i].(*name) + ", " +
+                                                       ^
+groc_db.cpp:39:57: error: ‘name’ was not declared in this scope
+       r->getName() + ", " + r->(*getIngredients())[i].(*name) + ", " +
+                                                         ^
+groc_db.cpp:40:20: error: expected unqualified-id before ‘(’ token
+       to_string(r->(*getIngredients())[i].quantity) + ", " +
+                    ^
+groc_db.cpp:41:10: error: expected unqualified-id before ‘(’ token
+       r->(*getIngredients())[i].(*unit) + ", " +
+          ^
+groc_db.cpp:41:33: error: expected unqualified-id before ‘(’ token
+       r->(*getIngredients())[i].(*unit) + ", " +
+                                 ^
+groc_db.cpp:41:35: error: ‘unit’ was not declared in this scope
+       r->(*getIngredients())[i].(*unit) + ", " +
+                                   ^
+groc_db.cpp:42:10: error: expected unqualified-id before ‘(’ token
+       r->(*getIngredients())[i].(*foodgroup) + ");";
+          ^
+groc_db.cpp:42:33: error: expected unqualified-id before ‘(’ token
+       r->(*getIngredients())[i].(*foodgroup) + ");";
+                                 ^
+groc_db.cpp:42:35: error: ‘foodgroup’ was not declared in this scope
+       r->(*getIngredients())[i].(*foodgroup) + ");";
+                                   ^
+groc_db.cpp:43:27: error: ‘c_str’ is not a member of ‘std’
+     rc = sqlite3_exec(db, std::c_str(sql), NULL, NULL, &zErrMsg);
+                           ^
+groc_db.cpp:47:36: error: invalid operands of types ‘const char [12]’ and ‘char*’ to binary ‘operator+’
+       std::cout << "SQL Error: " + zErrMsg + "\n";
+                                    ^
+In file included from recipe.cpp:1:0:
+recipe.h:7:8: error: ‘string’ in namespace ‘std’ does not name a type
+   std::string name;
+        ^
+recipe.h:8:8: error: ‘string’ in namespace ‘std’ does not name a type
+   std::string foodgroup;
+        ^
+recipe.h:9:8: error: ‘string’ in namespace ‘std’ does not name a type
+   std::string unit;
+        ^
+recipe.h:17:22: error: expected ‘)’ before ‘n’
+   Recipe(std::string n, int s, std::vector<Ingredient>* i);
+                      ^
+recipe.h:20:15: error: ‘string’ in namespace ‘std’ does not name a type
+   inline std::string getName() {
+               ^
+recipe.h:31:8: error: ‘string’ in namespace ‘std’ does not name a type
+   std::string name;
+        ^
+recipe.cpp:3:15: error: expected constructor, destructor, or type conversion before ‘(’ token
+ Recipe::Recipe(std::string n, int s, std::vector<Ingredient>* i)
+               ^
+test1.cpp:1:24: fatal error: ../groc_db.h: No such file or directory
+ #include "../groc_db.h"
+                        ^
+compilation terminated.
