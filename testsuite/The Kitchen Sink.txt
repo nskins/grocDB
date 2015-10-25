@@ -1,12 +1,14 @@
 The Kitchen Sink
 
-1500 tbsp salt
-12 cans sardines
-8 bell peppers
-3 heads cabbage
-3 carrots
-2.5 yellow onions
-1 scoop ice cream
+5
+
+Spices 1500 tbsp salt
+Canned 12 cans sardines
+Vegetable 8 bell peppers
+Vegetable 3 heads cabbage
+Vegetable 3 carrots
+Vegetable 2.5 yellow onions
+Dairy 1 scoop ice cream
 
 Directions
 
@@ -14,3 +16,4 @@ Directions
 2. Throw all ingredients into the gaping hole left after ripping your sink out
 3. Mix it up real good
 4. Eat with a (small) spoon
+
