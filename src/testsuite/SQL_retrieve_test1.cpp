@@ -15,9 +15,9 @@ int main(int argc, char **argv) {
 
   for (int i = 0; i < size; ++i) {
     std::cout << r.getIngredients().at(i).name << "|"
-	      << r.getIngredients().at(i).quantity << "|"
+	      << r.getIngredients().at(i).foodgroup << "|"
 	      << r.getIngredients().at(i).unit << "|"
-	      << r.getIngredients().at(i).foodgroup << "\n";
+	      << r.getIngredients().at(i).quantity << "\n";
   }
 
   return 0;

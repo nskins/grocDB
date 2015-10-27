@@ -20,7 +20,8 @@ void add_to_db(Recipe *r) {
 
   // Set and execute an SQL statement.
   sql = std::string("INSERT INTO recipes VALUES ('") +
-    r->getName() + "', " + std::to_string(r->getServes()) + ");";
+    r->getName() + "', '" + r->getDirections() +
+    "', "  + std::to_string(r->getServes()) + ");";
   rc = sqlite3_exec(db, sql.c_str(), NULL, NULL, &zErrMsg);
 
   // Error handling.
@@ -36,10 +37,10 @@ void add_to_db(Recipe *r) {
   // Add an entry for every ingredient in the recipe.
   for (int i = 0; i < size; ++i) {
     sql = std::string("INSERT INTO madewith VALUES ('") +
-      r->getName() + "', '" + (r->getIngredients().at(i).name) + "', " +
-      std::to_string(r->getIngredients().at(i).quantity) + ", '" +
-      (r->getIngredients().at(i).unit) + "', '" +
-      (r->getIngredients().at(i).foodgroup) + "');";
+      r->getName() + "', '" + (r->getIngredients().at(i).name) + "', '" +
+      r->getIngredients().at(i).foodgroup + "', '" +
+      r->getIngredients().at(i).unit + "', " +
+      std::to_string(r->getIngredients().at(i).quantity) + ");";
     rc = sqlite3_exec(db, sql.c_str(), NULL, NULL, &zErrMsg);
 
     // Error handling.
@@ -59,10 +60,13 @@ void add_to_db(Recipe *r) {
 
 static int retrieve_callback_1(void *data, int argc,
 			     char **argv, char **azColName) {
+
+  // Static cast the void pointer.
   Recipe* r = static_cast<Recipe*>(data);
   
   r->setName(argv[0]);
-  r->setServes(atoi(argv[1]));
+  r->setDirections(argv[1]);
+  r->setServes(atoi(argv[2]));
 
   return 0;
 }
@@ -78,10 +82,10 @@ static int retrieve_callback_2(void *data, int argc,
     static_cast<std::vector<Ingredient>*>(data);
   
   // argv[1] is the ingredient's name
-  // argv[2] is the quantity
+  // argv[2] is the ingredient's foodgroup
   // argv[3] is the unit of measurement
-  // argv[4] is the ingredient's foodgroup
-  Ingredient j { argv[1], argv[4], argv[3], atoi(argv[2]) };
+  // argv[4] is the quantity
+  Ingredient j { argv[1], argv[2], argv[3], atoi(argv[4]) };
   ingredients->push_back(j);
 
   return 0;
@@ -102,7 +106,7 @@ void retrieve_from_db(std::string name, Recipe *r) {
   }
 
   // Set and execute an SQL statement.
-  sql = std::string("SELECT name, serves FROM recipes") +
+  sql = std::string("SELECT * FROM recipes") +
         " WHERE name = '" + name + "';";
   rc = sqlite3_exec(db, sql.c_str(), retrieve_callback_1,
 		    r, &zErrMsg);
