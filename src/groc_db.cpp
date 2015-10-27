@@ -2,7 +2,6 @@
 #include "groc_db.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <string>
 #include <sqlite3.h>
 
 void add_to_db(Recipe *r) {
@@ -20,7 +19,7 @@ void add_to_db(Recipe *r) {
   }
 
   // Set and execute an SQL statement.
-  sql = "INSERT INTO recipes VALUES ('" +
+  sql = std::string("INSERT INTO recipes VALUES ('") +
     r->getName() + "', " + std::to_string(r->getServes()) + ");";
   rc = sqlite3_exec(db, sql.c_str(), NULL, NULL, &zErrMsg);
 
@@ -32,15 +31,15 @@ void add_to_db(Recipe *r) {
     exit(0);
   }
   
-  int size = r->getIngredients()->size();
+  int size = r->getIngredients().size();
 
   // Add an entry for every ingredient in the recipe.
   for (int i = 0; i < size; ++i) {
-    sql = "INSERT INTO madewith VALUES ('" +
-      r->getName() + "', '" + (r->getIngredients()->at(i).name) + "', " +
-      std::to_string(r->getIngredients()->at(i).quantity) + ", '" +
-      (r->getIngredients()->at(i).unit) + "', '" +
-      (r->getIngredients()->at(i).foodgroup) + "');";
+    sql = std::string("INSERT INTO madewith VALUES ('") +
+      r->getName() + "', '" + (r->getIngredients().at(i).name) + "', " +
+      std::to_string(r->getIngredients().at(i).quantity) + ", '" +
+      (r->getIngredients().at(i).unit) + "', '" +
+      (r->getIngredients().at(i).foodgroup) + "');";
     rc = sqlite3_exec(db, sql.c_str(), NULL, NULL, &zErrMsg);
 
     // Error handling.
@@ -54,4 +53,91 @@ void add_to_db(Recipe *r) {
 
   // Close database.
   sqlite3_close(db);
+
+  return;
+}
+
+static int retrieve_callback_1(void *data, int argc,
+			     char **argv, char **azColName) {
+  Recipe* r = static_cast<Recipe*>(data);
+  
+  r->setName(argv[0]);
+  r->setServes(atoi(argv[1]));
+
+  return 0;
+}
+
+static int retrieve_callback_2(void *data, int argc,
+			       char **argv, char **azColName) {
+  // argc is the number of attributes retreived from the row.
+  // azColName is the name of the i^th column (0 <= i < argc).
+  // argv is the attribute for the i^th column.
+
+  // Static cast the void pointer.
+  std::vector<Ingredient> *ingredients =
+    static_cast<std::vector<Ingredient>*>(data);
+  
+  // argv[1] is the ingredient's name
+  // argv[2] is the quantity
+  // argv[3] is the unit of measurement
+  // argv[4] is the ingredient's foodgroup
+  Ingredient j { argv[1], argv[4], argv[3], atoi(argv[2]) };
+  ingredients->push_back(j);
+
+  return 0;
+}
+
+void retrieve_from_db(std::string name, Recipe *r) {
+  sqlite3 *db;
+  char *zErrMsg = 0;
+  int rc;
+  
+  std::string sql;
+
+  // Open database.
+  rc = sqlite3_open("groc.db", &db);
+  if (rc) {
+    std::cout << "Error opening database.\n";
+    exit(0);
+  }
+
+  // Set and execute an SQL statement.
+  sql = std::string("SELECT name, serves FROM recipes") +
+        " WHERE name = '" + name + "';";
+  rc = sqlite3_exec(db, sql.c_str(), retrieve_callback_1,
+		    r, &zErrMsg);
+
+  // Error handling.
+  if (rc != SQLITE_OK) {
+    std::cout << "SQL Error!\n";
+    std::cout << zErrMsg << "\n";
+    sqlite3_free(zErrMsg);
+    exit(0);
+  }
+
+  // We must initialize the ingredients vector outside
+  // of the callback function.
+  std::vector<Ingredient> ingredients;
+
+  // Set and execute an SQL statement.
+  sql = std::string("SELECT * FROM madewith WHERE recipe = '")
+    + name + "';";
+  // This statement is called once for each row that is SELECTed.
+  rc = sqlite3_exec(db, sql.c_str(), retrieve_callback_2,
+		    &ingredients, &zErrMsg);
+
+  r->setIngredients(ingredients);
+
+  // Error handling.
+  if (rc != SQLITE_OK) {
+    std::cout << "SQL Error!\n";
+    std::cout << zErrMsg << "\n";
+    sqlite3_free(zErrMsg);
+    exit(0);
+  }
+
+  // Close database.
+  sqlite3_close(db);
+  
+  return;
 }

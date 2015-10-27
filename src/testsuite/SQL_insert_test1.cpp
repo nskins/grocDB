@@ -12,7 +12,7 @@ int main(int argc, char **argv) {
   ingredients.push_back(i1);
   ingredients.push_back(i2);
   
-  Recipe r("LotOLettuce", 3, &ingredients);
+  Recipe r("LotOLettuce", 3, ingredients);
   add_to_db(&r);
 
   return 0;
