@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <getopt.h>
 #include <iostream>
+#include <ostream>
 
 // Specifies the first argument in argv that contains
 // a file/recipe for read and write.
@@ -50,60 +51,48 @@ int main(int argc, char *argv[]) {
 
   if (read_mode) {
     for (int i = FIRST_REC_ARG; i < argc; ++i) {
-      // Algorithm:
-      
-      // 1. Open the file given by argv[i]
+      // Open the file given by argv[i]
+      ifstream file;
+      file.open(argv[i]);
 
+      // Default construct a Recipe object.
+      Recipe r();
       
+      // Parse the data and obtain Recipe data.
+      // (Hardest step - contain in its own function)
       
-      // 2. Parse the data and obtain Recipe data.
-      //    (Hardest step - contain in its own function)
-
-
-      
-      // 3. Construct the appropriate Recipe object.
-
 
       
-      // 4. Pass the address of the Recipe object in add_to_db.
-
-
+      // Pass the address of the Recipe object in add_to_db.
+      add_to_db(&r);
       
-      // 5. Close the file
-
-
-      
+      // Close the file
+      file.close();
     }
   }
   if (write_mode) {
+    std::vector<Ingredient> master_list;
+    
     for (int i = FIRST_REC_ARG; i < argc; ++i) {
-      // Algorithm:
-      
-      // 1. Default construct a Recipe object.
+      // Default construct a Recipe object.
+      Recipe r();
 
+      // Pass argv[i] and the new Recipe object to retrieve_from_db.
+      retrieve_from_db(argv[i], &r);
 
-
-      // 2. Pass argv[i] and the new Recipe object to retrieve_from_db.
-
-
-
-      // 3. Add the Recipe to a vector of Recipes.
-
-
-      
+      // Load the master list of ingredients.
+      int size = r.getIngredients().size();
+      for (j = 0; j < size; ++j) {
+	master_list.push_back(r.getIngredients().at(j));
+      }
     }
-    // 4. Loop through the vector of Recipes and generate a master list
-    //    of ingredients (unsorted).
+    
+    // Sort the master list using a functor.
+    std::sort(master_list.begin(), master_list.end());
 
-
-
-    // 5. Sort the master list using a functor.
-
-
-
-    // 6. Output the master list in a fashionable manner.
-
-
+    // Output the master list in a fashionable manner.
+    // (Use an ostream to allow for multiple output formats).
+    ostream output;
     
   }
 
