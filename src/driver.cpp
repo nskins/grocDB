@@ -94,7 +94,7 @@ int main(int argc, char *argv[]) {
     }
     
     // Sort the master list using a functor.
-    // std::sort(master_list.begin(), master_list.end());
+    std::sort(master_list.begin(), master_list.end());
 
     // Output the master list in a fashionable manner.
     // (Use an ostream to allow for multiple output formats).
