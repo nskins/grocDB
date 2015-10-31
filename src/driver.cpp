@@ -97,8 +97,9 @@ int main(int argc, char *argv[]) {
     std::sort(master_list.begin(), master_list.end());
 
     // Output the master list in a fashionable manner.
-    // (Use an ostream to allow for multiple output formats).
-    
+    // Change from std::cout to file output using
+    // command-line option.
+    print_grocery_list(&master_list);
     
   }
   
