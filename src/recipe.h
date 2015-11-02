@@ -8,7 +8,7 @@ struct Ingredient {
   std::string name;
   std::string foodgroup;
   std::string unit;
-  int quantity;
+  double quantity;
 
   friend bool operator<(const Ingredient &a, const Ingredient &b);
 };
