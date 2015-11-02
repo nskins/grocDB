@@ -4,7 +4,7 @@ void print_commands() {
 }
 
 
-void print_output(ostream &output) {
+void print_output(void print_grocery_list(std::vector<Ingredient>* master_list, ostream &output) {
 
   
 

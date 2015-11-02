@@ -1,0 +1,23 @@
+CXX = g++
+CXXFLAGS = -lsqlite3 -std=c++11
+
+
+#SQL_insert_test_src = $(wildcard SQL_insert_test[0-9][0-9].cpp)
+#SQL_insert_test_exes = $(SQL_insert_test_src:.cpp=)
+
+#all: SQL_insert_tests
+
+
+SQL_insert_test01.exe: SQL_insert_test01.o
+	$(CXX) $(CXXFLAGS) ../recipe.cpp SQL_insert_test01.cpp -o SQL_insert_test01
+
+SQL_insert_test01.o: SQL_insert_test01.cpp
+	$(CXX) $(CXXFLAGS) ../recipe.cpp SQL_insert_test01.cpp -o SQL_insert_test01
+
+#SQL_insert_tests: $(SQL_insert_test_exes)
+
+#SQL_insert_test%: SQL_insert_test%.cpp ../groc_db.cpp ../recipe.cpp
+	$(CXX) $(CXXFLAGS) $^ -o $@
+
+
+../groc_db.cpp ../recipe.cpp SQL_insert_test01.cpp 
