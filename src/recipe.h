@@ -9,6 +9,8 @@ struct Ingredient {
   std::string foodgroup;
   std::string unit;
   int quantity;
+
+  friend bool operator<(const Ingredient &a, const Ingredient &b);
 };
 
 class Recipe {
