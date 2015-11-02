@@ -85,7 +85,7 @@ static int retrieve_callback_2(void *data, int argc,
   // argv[2] is the ingredient's foodgroup
   // argv[3] is the unit of measurement
   // argv[4] is the quantity
-  Ingredient j { argv[1], argv[2], argv[3], atoi(argv[4]) };
+  Ingredient j { argv[1], argv[2], argv[3], atof(argv[4]) };
   ingredients->push_back(j);
 
   return 0;

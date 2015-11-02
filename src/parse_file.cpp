@@ -1,6 +1,7 @@
+#include <cstdlib>
+#include <fstream>
 #include <iostream>
 #include "recipe.h"
-#include <cstdlib>
 #include <sstream>
 
 
@@ -8,12 +9,12 @@ void parse_file(std::string filename, Recipe *r) {
 	std::ifstream filestream;
 	filestream.open(filename.c_str());
 	
-	std::string input
+	std::string input;
 	std::getline(filestream, input);
 	r->setName(input);
 	std::getline(filestream, input);
 	std::getline(filestream, input);
-	r->setServes(atoi(input));
+	r->setServes(atoi(input.c_str()));
 	std::getline(filestream, input);
 
 	std::vector<Ingredient> ingredients;
@@ -28,18 +29,18 @@ void parse_file(std::string filename, Recipe *r) {
 		while(iss >> input) {
 			ing.name += input + " ";
 		}
-		ing.name = ing.name.substr(0, ing.name.size() - 2);
+		ing.name = ing.name.substr(0, ing.name.size() - 1);
 
 		ingredients.push_back(ing);
 	}
 	r->setIngredients(ingredients);
-	string directions = input + "\n";
+	std::string directions = input + "\n";
 	while(std::getline(filestream, input)) {
 		directions += input + "\n";
 	}
 	r->setDirections(directions);
 
-	
+	filestream.close();
 	//"ok that might be it 11:37 pm Sunday 11/1/15"
 
 

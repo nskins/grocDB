@@ -58,23 +58,15 @@ int main(int argc, char *argv[]) {
 
   if (read_mode) {
     for (int i = FIRST_REC_ARG; i < argc; ++i) {
-      // Open the file given by argv[i]
-      std::ifstream file;
-      file.open(argv[i]);
-
       // Default construct a Recipe object.
       Recipe r;
       
       // Parse the data and obtain Recipe data.
       // (Hardest step - contain in its own function)
-      parse_file(&r);
-      
+      parse_file(argv[i], &r);
       
       // Pass the address of the Recipe object in add_to_db.
       add_to_db(&r);
-      
-      // Close the file
-      file.close();
     }
   }
   if (write_mode) {
