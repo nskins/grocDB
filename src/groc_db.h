@@ -8,6 +8,9 @@
 // EFFECTS: Adds Recipe r to groc.db
 void add_to_db(Recipe *r);
 
+// EFFECTS: Removes the specified recipe from groc.db
+void remove_from_db(std::string name);
+
 // REQUIRES: Recipe r points to a recipe initialized by a
 //           default constructor which has not been further modified.
 // MODIFIES: The object to which r points.

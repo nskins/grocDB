@@ -58,6 +58,51 @@ void add_to_db(Recipe *r) {
   return;
 }
 
+void remove_from_db(std::string name) {
+  sqlite3 *db;
+  char *zErrMsg = 0;
+  int rc;
+  
+  std::string sql;
+
+  // Open database.
+  rc = sqlite3_open("groc.db", &db);
+  if (rc) {
+    std::cout << "Error opening database.\n";
+    exit(0);
+  }
+
+  // Set and execute an SQL statement.
+  sql = std::string("DELETE FROM madewith WHERE recipe='") +
+    name + "';";
+  rc = sqlite3_exec(db, sql.c_str(), NULL, NULL, &zErrMsg);
+
+  // Error handling.
+  if (rc != SQLITE_OK) {
+    std::cout << "SQL Error!\n";
+    std::cout << zErrMsg << "\n";
+    sqlite3_free(zErrMsg);
+    exit(0);
+  }
+
+  // Set and execute an SQL statement.
+  sql = std::string("DELETE FROM recipes WHERE name='") +
+    name + "';";
+  rc = sqlite3_exec(db, sql.c_str(), NULL, NULL, &zErrMsg);
+
+  // Error handling.
+  if (rc != SQLITE_OK) {
+    std::cout << "SQL Error!\n";
+    std::cout << zErrMsg << "\n";
+    sqlite3_free(zErrMsg);
+    exit(0);
+  }
+
+  // Close database.
+  sqlite3_close(db);
+  
+}
+
 static int retrieve_callback_1(void *data, int argc,
 			     char **argv, char **azColName) {
 

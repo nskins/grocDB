@@ -17,11 +17,13 @@ const int FIRST_REC_ARG = 2;
 
 int main(int argc, char *argv[]) {
   std::ios_base::sync_with_stdio(false);
-  
+
+  bool delete_mode = false;
   bool read_mode = false;
   bool write_mode = false;
   
   struct option longOpts[] = {
+    { "delete", no_argument, NULL, 'd' },
     { "help", no_argument, NULL, 'h' },
     { "read", no_argument, NULL, 'r' },
     { "write", no_argument, NULL, 'w' }
@@ -30,32 +32,31 @@ int main(int argc, char *argv[]) {
   opterr = false;
   int opt = 0; int index = 0;
   
-  while ((opt = getopt_long(argc, argv, "hrw", longOpts,
+  while ((opt = getopt_long(argc, argv, "dhrw", longOpts,
 			    &index)) != -1) {
     switch (opt) {
+    case 'd':
+      delete_mode = true;
+      break;
     case 'h':
       print_commands();
       break;
     case 'r':
-      if (write_mode) {
-	std::cout << "Error: Read and write cannot both be specified.\n";
-	exit(1);
-      }
       read_mode = true;
       break;
     case 'w':
-      if (read_mode) {
-	std::cout << "Error: Read and write cannot both be specified.\n";
-	exit(1);
-      }
       write_mode = true;
       break;
     default:
       std::cout << "One of those flags is invalid. Use -h or --help\n";
     }
-
   }
 
+  if (delete_mode) {
+    for (int i = FIRST_REC_ARG; i < argc; ++i) {
+      remove_from_db(argv[i]);
+    }
+  }
   if (read_mode) {
     for (int i = FIRST_REC_ARG; i < argc; ++i) {
       // Default construct a Recipe object.
