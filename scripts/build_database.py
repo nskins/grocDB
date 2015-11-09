@@ -2,7 +2,7 @@ import os
 import sqlite3
 
 # Open groc.db in the appropriate location.
-conn = sqlite3.connect(os.getcwd() + '//src//groc.db')
+conn = sqlite3.connect(os.getcwd() + '//groc.db')
 
 # Establish a cursor.
 c = conn.cursor()
