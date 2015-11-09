@@ -9,11 +9,13 @@
 void print_commands();
 
 // REQUIRES: master_list is sorted
-//           (Use std::sort)
 // MODIFIES: output
 // EFFECTS: Prints the grocery list
 //          in a fashionable manner.
-
 void print_grocery_list(std::vector<Ingredient>* master_list);
+
+// EFFECTS: Prints the recipe names
+//          in a fashionable manner.
+void print_recipe_names(std::vector<std::string>* recipe_names);
 
 #endif

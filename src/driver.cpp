@@ -15,84 +15,91 @@
 // a file/recipe for read and write.
 const int FIRST_REC_ARG = 2;
 
+//
+enum class MODE {
+  delete_mode,
+    query_mode,
+    read_mode,
+    write_mode   
+};
+
 int main(int argc, char *argv[]) {
   std::ios_base::sync_with_stdio(false);
-
-  bool delete_mode = false;
-  bool read_mode = false;
-  bool write_mode = false;
   
   struct option longOpts[] = {
     { "delete", no_argument, NULL, 'd' },
     { "help", no_argument, NULL, 'h' },
+    { "query", no_argument, NULL, 'q' },
     { "read", no_argument, NULL, 'r' },
     { "write", no_argument, NULL, 'w' }
   };
 
   opterr = false;
   int opt = 0; int index = 0;
+
+  MODE mode;
   
-  while ((opt = getopt_long(argc, argv, "dhrw", longOpts,
+  while ((opt = getopt_long(argc, argv, "dhqrw", longOpts,
 			    &index)) != -1) {
     switch (opt) {
     case 'd':
-      delete_mode = true;
+      mode = MODE::delete_mode;
       break;
     case 'h':
       print_commands();
       break;
+    case 'q':
+      mode = MODE::query_mode;
+      break;
     case 'r':
-      read_mode = true;
+      mode = MODE::read_mode;
       break;
     case 'w':
-      write_mode = true;
+      mode = MODE::write_mode;
       break;
     default:
       std::cout << "One of those flags is invalid. Use -h or --help\n";
     }
   }
 
-  if (delete_mode) {
+  if (mode == MODE::delete_mode) {
     for (int i = FIRST_REC_ARG; i < argc; ++i) {
       remove_from_db(argv[i]);
     }
   }
-  if (read_mode) {
+  if (mode == MODE::query_mode) {
+    std::vector<std::string> recipe_names;
+    
+    query_db(&recipe_names);
+
+    print_recipe_names(&recipe_names);
+    
+  }
+  if (mode == MODE::read_mode) {
     for (int i = FIRST_REC_ARG; i < argc; ++i) {
-      // Default construct a Recipe object.
       Recipe r;
       
-      // Parse the data and obtain Recipe data.
-      // (Hardest step - contain in its own function)
       parse_file(argv[i], &r);
       
-      // Pass the address of the Recipe object in add_to_db.
       add_to_db(&r);
     }
   }
-  if (write_mode) {
+  if (mode == MODE::write_mode) {
     std::vector<Ingredient> master_list;
     
     for (int i = FIRST_REC_ARG; i < argc; ++i) {
-      // Default construct a Recipe object.
       Recipe r;
 
-      // Pass argv[i] and the new Recipe object to retrieve_from_db.
       retrieve_from_db(argv[i], &r);
 
-      // Load the master list of ingredients.
       int size = r.getIngredients().size();
       for (int j = 0; j < size; ++j) {
 	master_list.push_back(r.getIngredients().at(j));
       }
     }
     
-    // Sort the master list using a functor.
     std::sort(master_list.begin(), master_list.end());
 
-    // Output the master list in a fashionable manner.
-    // Change from std::cout to file output using
-    // command-line option.
     print_grocery_list(&master_list);
     
   }

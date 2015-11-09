@@ -8,6 +8,11 @@
 // EFFECTS: Adds Recipe r to groc.db
 void add_to_db(Recipe *r);
 
+// EFFECTS: Fills the vector to which v
+//          points with the names of all
+//          of the recipes in groc.db
+void query_db(std::vector<std::string>* v);
+
 // EFFECTS: Removes the specified recipe from groc.db
 void remove_from_db(std::string name);
 

@@ -55,3 +55,10 @@ void print_grocery_list(std::vector<Ingredient>* master_list) {
   
   return;
 }
+
+void print_recipe_names(std::vector<std::string>* recipe_names) {
+  for (int i = 0; i < recipe_names->size(); ++i) {
+    std::cout << recipe_names->at(i) << "\n";
+  }
+  return;
+}

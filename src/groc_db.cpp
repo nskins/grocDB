@@ -58,6 +58,45 @@ void add_to_db(Recipe *r) {
   return;
 }
 
+static int query_callback(void *data, int argc,
+			     char **argv, char **azColName) {
+
+  // Static cast the void pointer.
+  std::vector<std::string>* recipe_names =
+    static_cast<std::vector<std::string>*>(data);
+  
+  recipe_names->push_back(argv[0]);
+
+  return 0;
+}
+
+void query_db(std::vector<std::string>* recipe_names) {
+  sqlite3 *db;
+  char *zErrMsg = 0;
+  int rc;
+
+  std::string sql;
+
+  // Open database.
+  rc = sqlite3_open("groc.db", &db);
+  if (rc) {
+    std::cout << "Error opening database.\n";
+    exit(0);
+  }
+
+  // Set and execute an SQL statement.
+  sql = std::string("SELECT * FROM recipes;");
+  rc = sqlite3_exec(db, sql.c_str(), query_callback, recipe_names, &zErrMsg);
+
+  // Error handling.
+  if (rc != SQLITE_OK) {
+    std::cout << "SQL Error!\n";
+    std::cout << zErrMsg << "\n";
+    sqlite3_free(zErrMsg);
+    exit(0);
+  }
+}
+
 void remove_from_db(std::string name) {
   sqlite3 *db;
   char *zErrMsg = 0;

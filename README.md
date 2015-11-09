@@ -16,6 +16,10 @@ Well now there is! Say goodbye to running 5Ks in the supermarket...
 
 -w Pizza Spaghetti
 
-**Remove recipe data from database**: 
+**Print all recipes in database**:
+
+-q
+
+**Remove recipes from database**: 
 
 -d Pizza Spaghetti
