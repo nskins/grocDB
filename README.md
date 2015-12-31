@@ -8,18 +8,34 @@ Well now there is! Say goodbye to running 5Ks in the supermarket...
 
 ## How to Use
 
+Pull the repository to a directory of your choosing. Then run the following command in the directory:
+
+```shell
+make
+```
+
+You can now run grocDB commands! These commands are listed below. Test files are provided in src/testsuite.
+
 **Read files**: 
 
--r Pizza.txt Spaghetti.txt
+./grocDB -r Pizza.txt "Lentil Soup.txt"
 
 **Compile grocery list**: 
 
--w Pizza Spaghetti
+./grocDB -w Pizza "Lentil Soup"
 
 **Print all recipes in database**:
 
--q
+./grocDB -q
 
 **Remove recipes from database**: 
 
--d Pizza Spaghetti
+./grocDB -d Pizza "Lentil Soup"
+
+## Dependencies
+
+sqlite3 must be installed. 
+
+## Contributions
+
+Please submit issues/ideas and make pull requests. We appreciate it.
